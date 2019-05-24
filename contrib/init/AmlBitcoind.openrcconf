@@ -1,0 +1,33 @@
+# /etc/conf.d/AmlBitcoind: config file for /etc/init.d/AmlBitcoind
+
+# Config file location
+#AMLBITCOIND_CONFIGFILE="/etc/AmlBitcoin/AmlBitcoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $AMLBITCOIND_USER)
+#AMLBITCOIND_PIDDIR="/var/run/AmlBitcoind"
+
+# What filename to give the pidfile
+#AMLBITCOIND_PIDFILE="${AMLBITCOIND_PIDDIR}/AmlBitcoind.pid"
+
+# Where to write AmlBitcoind data (be mindful that the blockchain is large)
+#AMLBITCOIND_DATADIR="/var/lib/AmlBitcoind"
+
+# User and group to own AmlBitcoind process
+#AMLBITCOIND_USER="AmlBitcoin"
+#AMLBITCOIND_GROUP="AmlBitcoin"
+
+# Path to AmlBitcoind executable
+#AMLBITCOIND_BIN="/usr/bin/AmlBitcoind"
+
+# Nice value to run AmlBitcoind under
+#AMLBITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#AMLBITCOIND_OPTS=""
+
+# The timeout in seconds OpenRC will wait for AmlBitcoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+AMLBITCOIND_SIGTERM_TIMEOUT=60

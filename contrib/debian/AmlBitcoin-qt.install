@@ -1,0 +1,6 @@
+usr/local/bin/AmlBitcoin-qt usr/bin
+share/pixmaps/AmlBitcoin32.xpm usr/share/pixmaps
+share/pixmaps/AmlBitcoin16.xpm usr/share/pixmaps
+share/pixmaps/AmlBitcoin128.png usr/share/pixmaps
+debian/AmlBitcoin-qt.desktop usr/share/applications
+debian/AmlBitcoin-qt.protocol usr/share/kde4/services/

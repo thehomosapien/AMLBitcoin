@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2017 The Raven Core developers
+// Copyright (c) 2017 The AmlBitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_TXMEMPOOL_H
-#define RAVEN_TXMEMPOOL_H
+#ifndef AMLBITCOIN_TXMEMPOOL_H
+#define AMLBITCOIN_TXMEMPOOL_H
 
 #include <memory>
 #include <set>
@@ -805,4 +805,4 @@ struct DisconnectedBlockTransactions {
     }
 };
 
-#endif // RAVEN_TXMEMPOOL_H
+#endif // AMLBITCOIN_TXMEMPOOL_H

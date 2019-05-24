@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2015 The Bitcoin Core developers
-# Copyright (c) 2017-2018 The Raven Core developers
+# Copyright (c) 2017-2018 The AmlBitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,13 +9,13 @@
 #
 
 import time
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import AmlBitcoinTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 import binascii
 
-class SpentIndexTest(RavenTestFramework):
+class SpentIndexTest(AmlBitcoinTestFramework):
 
     def set_test_params(self):
         self.setup_clean_chain = True
@@ -49,14 +49,14 @@ class SpentIndexTest(RavenTestFramework):
         # Check that
         print("Testing spent index...")
 
-        feeSatoshis = 10000
+        feeAmlBits = 10000
         privkey = "cSdkPxkAjA4HDr5VHgsebAPDEh9Gyub4HK8UJr2DFGGqKKy4K5sG"
         address = "mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW"
         addressHash = bytes([11,47,10,12,49,191,224,64,107,12,204,19,129,253,190,49,25,70,218,220])
         scriptPubKey = CScript([OP_DUP, OP_HASH160, addressHash, OP_EQUALVERIFY, OP_CHECKSIG])
         unspent = self.nodes[0].listunspent()
         tx = CTransaction()
-        amount = int(unspent[0]["amount"] * 100000000 - feeSatoshis)
+        amount = int(unspent[0]["amount"] * 100000000 - feeAmlBits)
         tx.vin = [CTxIn(COutPoint(int(unspent[0]["txid"], 16), unspent[0]["vout"]))]
         tx.vout = [CTxOut(amount, scriptPubKey)]
         tx.rehash()
@@ -84,8 +84,8 @@ class SpentIndexTest(RavenTestFramework):
 
         # Check that verbose raw transaction includes input values
         txVerbose2 = self.nodes[3].getrawtransaction(txid, 1)
-        assert_equal(float(txVerbose2["vin"][0]["value"]), (amount + feeSatoshis) / 100000000)
-        assert_equal(txVerbose2["vin"][0]["valueSat"], amount + feeSatoshis)
+        assert_equal(float(txVerbose2["vin"][0]["value"]), (amount + feeAmlBits) / 100000000)
+        assert_equal(txVerbose2["vin"][0]["valueSat"], amount + feeAmlBits)
 
         # Check that verbose raw transaction includes address values and input values
         privkey2 = "cSdkPxkAjA4HDr5VHgsebAPDEh9Gyub4HK8UJr2DFGGqKKy4K5sG"
@@ -94,7 +94,7 @@ class SpentIndexTest(RavenTestFramework):
         scriptPubKey2 = CScript([OP_DUP, OP_HASH160, addressHash2, OP_EQUALVERIFY, OP_CHECKSIG])
         tx2 = CTransaction()
         tx2.vin = [CTxIn(COutPoint(int(txid, 16), 0))]
-        amount = int(amount - feeSatoshis);
+        amount = int(amount - feeAmlBits);
         tx2.vout = [CTxOut(amount, scriptPubKey2)]
         tx.rehash()
         self.nodes[0].importprivkey(privkey)
@@ -105,8 +105,8 @@ class SpentIndexTest(RavenTestFramework):
         self.sync_all()
         txVerbose3 = self.nodes[1].getrawtransaction(txid2, 1)
         assert_equal(txVerbose3["vin"][0]["address"], address2)
-        assert_equal(txVerbose3["vin"][0]["valueSat"], amount + feeSatoshis)
-        assert_equal(float(txVerbose3["vin"][0]["value"]), (amount + feeSatoshis) / 100000000)
+        assert_equal(txVerbose3["vin"][0]["valueSat"], amount + feeAmlBits)
+        assert_equal(float(txVerbose3["vin"][0]["value"]), (amount + feeAmlBits) / 100000000)
 
 
         # Check the database index
@@ -115,8 +115,8 @@ class SpentIndexTest(RavenTestFramework):
 
         txVerbose4 = self.nodes[3].getrawtransaction(txid2, 1)
         assert_equal(txVerbose4["vin"][0]["address"], address2)
-        assert_equal(txVerbose4["vin"][0]["valueSat"], amount + feeSatoshis)
-        assert_equal(float(txVerbose4["vin"][0]["value"]), (amount + feeSatoshis) / 100000000)
+        assert_equal(txVerbose4["vin"][0]["valueSat"], amount + feeAmlBits)
+        assert_equal(float(txVerbose4["vin"][0]["value"]), (amount + feeAmlBits) / 100000000)
 
         # Check block deltas
         print("Testing getblockdeltas...")
@@ -130,12 +130,12 @@ class SpentIndexTest(RavenTestFramework):
         assert_equal(block["deltas"][1]["txid"], txid2)
         assert_equal(block["deltas"][1]["inputs"][0]["index"], 0)
         assert_equal(block["deltas"][1]["inputs"][0]["address"], "mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW")
-        assert_equal(block["deltas"][1]["inputs"][0]["satoshis"], (amount + feeSatoshis) * -1)
+        assert_equal(block["deltas"][1]["inputs"][0]["AmlBits"], (amount + feeAmlBits) * -1)
         assert_equal(block["deltas"][1]["inputs"][0]["prevtxid"], txid)
         assert_equal(block["deltas"][1]["inputs"][0]["prevout"], 0)
         assert_equal(block["deltas"][1]["outputs"][0]["index"], 0)
         assert_equal(block["deltas"][1]["outputs"][0]["address"], "mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW")
-        assert_equal(block["deltas"][1]["outputs"][0]["satoshis"], amount)
+        assert_equal(block["deltas"][1]["outputs"][0]["AmlBits"], amount)
 
         print("Passed\n")
 

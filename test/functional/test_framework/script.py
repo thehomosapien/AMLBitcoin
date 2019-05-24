@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2016 The Bitcoin Core developers
-# Copyright (c) 2017 The Raven Core developers
+# Copyright (c) 2017 The AmlBitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Functionality to build scripts, as well as SignatureHash().
 
-This file is modified from python-ravenlib.
+This file is modified from python-AmlBitcoinlib.
 """
 
 from .mininode import CTransaction, CTxOut, sha256, hash256, uint256_from_str, ser_uint256, ser_string
@@ -233,7 +233,7 @@ OP_NOP8 = CScriptOp(0xb7)
 OP_NOP9 = CScriptOp(0xb8)
 OP_NOP10 = CScriptOp(0xb9)
 
-OP_RVN_ASSET = CScriptOp(0xc0)
+OP_AML_ASSET = CScriptOp(0xc0)
 
 # template matching params
 OP_SMALLINTEGER = CScriptOp(0xfa)
@@ -355,7 +355,7 @@ OPCODE_NAMES.update({
     OP_NOP8 : 'OP_NOP8',
     OP_NOP9 : 'OP_NOP9',
     OP_NOP10 : 'OP_NOP10',
-    OP_RVN_ASSET : 'OP_RVN_ASSET',
+    OP_AML_ASSET : 'OP_AML_ASSET',
     OP_SMALLINTEGER : 'OP_SMALLINTEGER',
     OP_PUBKEYS : 'OP_PUBKEYS',
     OP_PUBKEYHASH : 'OP_PUBKEYHASH',
@@ -585,7 +585,7 @@ SIGHASH_SINGLE = 3
 SIGHASH_ANYONECANPAY = 0x80
 
 def FindAndDelete(script, sig):
-    """Consensus critical, see FindAndDelete() in Satoshi codebase"""
+    """Consensus critical, see FindAndDelete() in AmlBit codebase"""
     r = b''
     last_sop_idx = sop_idx = 0
     skip = True

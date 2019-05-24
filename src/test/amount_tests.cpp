@@ -1,11 +1,11 @@
 // Copyright (c) 2016 The Bitcoin Core developers
-// Copyright (c) 2017 The Raven Core developers
+// Copyright (c) 2017 The AmlBitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "amount.h"
 #include "policy/feerate.h"
-#include "test/test_raven.h"
+#include "test/test_AmlBitcoin.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -76,7 +76,7 @@ BOOST_FIXTURE_TEST_SUITE(amount_tests, BasicTestingSetup)
         BOOST_CHECK(CFeeRate(CAmount(-1), 1000) == CFeeRate(-1));
         BOOST_CHECK(CFeeRate(CAmount(0), 1000) == CFeeRate(0));
         BOOST_CHECK(CFeeRate(CAmount(1), 1000) == CFeeRate(1));
-        // lost precision (can only resolve satoshis per kB)
+        // lost precision (can only resolve AmlBits per kB)
         BOOST_CHECK(CFeeRate(CAmount(1), 1001) == CFeeRate(0));
         BOOST_CHECK(CFeeRate(CAmount(2), 1001) == CFeeRate(1));
         // some more integer checks
@@ -100,7 +100,7 @@ BOOST_FIXTURE_TEST_SUITE(amount_tests, BasicTestingSetup)
         BOOST_CHECK(a <= a);
         BOOST_CHECK(b >= a);
         BOOST_CHECK(b >= b);
-        // a should be 0.00000002 RVN/kB now
+        // a should be 0.00000002 AML/kB now
         a += a;
         BOOST_CHECK(a == b);
     }
@@ -111,7 +111,7 @@ BOOST_FIXTURE_TEST_SUITE(amount_tests, BasicTestingSetup)
 
         CFeeRate feeRate;
         feeRate = CFeeRate(1);
-        BOOST_CHECK_EQUAL(feeRate.ToString(), "0.00000001 RVN/kB");
+        BOOST_CHECK_EQUAL(feeRate.ToString(), "0.00000001 AML/kB");
     }
 
 BOOST_AUTO_TEST_SUITE_END()

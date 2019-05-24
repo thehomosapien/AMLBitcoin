@@ -1,6 +1,6 @@
 # Voting
 
-Voting for Ravencoin is a protocol level solution, which allows UTXOs that expire.  
+Voting for AmlBitcoin is a protocol level solution, which allows UTXOs that expire.  
 
 The advantage to expiring UTXOs is that they do not need to be held in memory after the expiration because the right to vote has expired, and therefore the expired votes are worthless.
 
@@ -31,9 +31,9 @@ Voting without specifying the qty in the RPC call will vote all the tokens.  Par
 ## Delegative or Liquid voting
 Vote tokens move just like regular tokens up until the block height when the vote expires.  This allows vote token holders to send their vote to a delegate that might have better information about the topic and therefore cast a more informed vote.
 
-Ravencoin voting supports this type of vote while still protecting against counterfeit votes and ensuring votes can't be cast twice, and transparently tracking every vote that is cast or not cast.
+AmlBitcoin voting supports this type of vote while still protecting against counterfeit votes and ensuring votes can't be cast twice, and transparently tracking every vote that is cast or not cast.
 
-By issuing EXACTLY the same number of vote tokens as the BASETOKEN and automatically burning the exempted votes, it is easy to do a full audit of all votes.  Unused votes that expire from the mempool can be easily calculated by subtracting votes from issued vote tokens once the vote expiration block height has passed.  This number can also be audited by the Ravencoin software at the time of UTXO expiry to ensure the UTXO vote count exactly matches issuance before removal.  Note: If UTXO optimization is done for burn addresses, this will need to factor into the UTXO audit.
+By issuing EXACTLY the same number of vote tokens as the BASETOKEN and automatically burning the exempted votes, it is easy to do a full audit of all votes.  Unused votes that expire from the mempool can be easily calculated by subtracting votes from issued vote tokens once the vote expiration block height has passed.  This number can also be audited by the AmlBitcoin software at the time of UTXO expiry to ensure the UTXO vote count exactly matches issuance before removal.  Note: If UTXO optimization is done for burn addresses, this will need to factor into the UTXO audit.
 
 ## Vote message specification (in IPFS)
 ```
@@ -73,6 +73,6 @@ This is an optional way of allocating vote tokens.  Instead of issuing a vote to
 
 ```issue_percent_vote BASETOKEN NAME ipfs_hash lastblocktovote [optional exempt address list]```
 
-The vote mechanism is identical, but this allocates votes as a percentage.  The total BASETOKEN amount minus the exemption addresses is calculated.  Then each address gets QTY_OF_BASETOKEN_HELD / TOTAL_BASETOKEN_NOT_INCLUDING_EXEMPTED_ADDRESSES.  This is calculated down to the satoshi.   The amount of vote tokens must sum up to 100.00000000, so any remaining satoshis (caused by rounding errors at the 10^-8 precision) need to be accounted for and either sent to a burn address or allocated to a BASETOKEN holder.
+The vote mechanism is identical, but this allocates votes as a percentage.  The total BASETOKEN amount minus the exemption addresses is calculated.  Then each address gets QTY_OF_BASETOKEN_HELD / TOTAL_BASETOKEN_NOT_INCLUDING_EXEMPTED_ADDRESSES.  This is calculated down to the AmlBit.   The amount of vote tokens must sum up to 100.00000000, so any remaining AmlBits (caused by rounding errors at the 10^-8 precision) need to be accounted for and either sent to a burn address or allocated to a BASETOKEN holder.
 
 The advantage of using percentage voting is that it simplifies some vote calculations as a simple asset explorer will allow anyone to see the votes cast and view it as a percentage without knowing the total qty of tokens issued.

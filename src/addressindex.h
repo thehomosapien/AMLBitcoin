@@ -3,14 +3,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_ADDRESSINDEX_H
-#define RAVEN_ADDRESSINDEX_H
+#ifndef AMLBITCOIN_ADDRESSINDEX_H
+#define AMLBITCOIN_ADDRESSINDEX_H
 
 #include "uint256.h"
 #include "amount.h"
 #include "script/script.h"
 
-static const std::string RVN = "RVN";
+static const std::string AML = "AML";
 
 struct CAddressUnspentKey {
     unsigned int type;
@@ -42,7 +42,7 @@ struct CAddressUnspentKey {
     CAddressUnspentKey(unsigned int addressType, uint160 addressHash, uint256 txid, size_t indexValue) {
         type = addressType;
         hashBytes = addressHash;
-        asset = RVN;
+        asset = AML;
         txhash = txid;
         index = indexValue;
     }
@@ -69,7 +69,7 @@ struct CAddressUnspentKey {
 };
 
 struct CAddressUnspentValue {
-    CAmount satoshis;
+    CAmount AmlBits;
     CScript script;
     int blockHeight;
 
@@ -77,13 +77,13 @@ struct CAddressUnspentValue {
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(satoshis);
+        READWRITE(AmlBits);
         READWRITE(*(CScriptBase*)(&script));
         READWRITE(blockHeight);
     }
 
     CAddressUnspentValue(CAmount sats, CScript scriptPubKey, int height) {
-        satoshis = sats;
+        AmlBits = sats;
         script = scriptPubKey;
         blockHeight = height;
     }
@@ -93,13 +93,13 @@ struct CAddressUnspentValue {
     }
 
     void SetNull() {
-        satoshis = -1;
+        AmlBits = -1;
         script.clear();
         blockHeight = 0;
     }
 
     bool IsNull() const {
-        return (satoshis == -1);
+        return (AmlBits == -1);
     }
 };
 
@@ -146,7 +146,7 @@ struct CAddressIndexKey {
                      uint256 txid, size_t indexValue, bool isSpending) {
         type = addressType;
         hashBytes = addressHash;
-        asset = RVN;
+        asset = AML;
         blockHeight = height;
         txindex = blockindex;
         txhash = txid;
@@ -240,7 +240,7 @@ struct CAddressIndexIteratorAssetKey {
     CAddressIndexIteratorAssetKey(unsigned int addressType, uint160 addressHash) {
         type = addressType;
         hashBytes = addressHash;
-        asset = RVN;
+        asset = AML;
     }
 
     CAddressIndexIteratorAssetKey(unsigned int addressType, uint160 addressHash, std::string assetName) {
@@ -287,7 +287,7 @@ struct CAddressIndexIteratorHeightKey {
     CAddressIndexIteratorHeightKey(unsigned int addressType, uint160 addressHash, int height) {
         type = addressType;
         hashBytes = addressHash;
-        asset = RVN;
+        asset = AML;
         blockHeight = height;
     }
 
@@ -406,4 +406,4 @@ struct CMempoolAddressDeltaKeyCompare
     }
 };
 
-#endif // RAVEN_ADDRESSINDEX_H
+#endif // AMLBITCOIN_ADDRESSINDEX_H

@@ -1,0 +1,8 @@
+/usr/bin/AmlBitcoin-cli		--	gen_context(system_u:object_r:AmlBitcoin_exec_t,s0)
+/usr/sbin/AmlBitcoind		--	gen_context(system_u:object_r:AmlBitcoin_exec_t,s0)
+/usr/lib(64)?/AmlBitcoin/AmlBitcoind		--	gen_context(system_u:object_r:AmlBitcoin_exec_t,s0)
+
+/etc/AmlBitcoin(/.*)?		gen_context(system_u:object_r:AmlBitcoin_conf_t,s0)
+/var/lib/AmlBitcoin(/.*)?		gen_context(system_u:object_r:AmlBitcoin_var_lib_t,s0)
+
+(/var)?/run/AmlBitcoind(/.*)?   gen_context(system_u:object_r:AmlBitcoin_var_run_t,s0)

@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/AmlBitcoin/.AmlBitcoin" ]; then
+	AMLBITCOIND_DEFAULT_DATADIR="/var/lib/AmlBitcoin/.AmlBitcoin"
+else
+	AMLBITCOIND_DEFAULT_DATADIR="/var/lib/AmlBitcoind"
+fi
+
+AMLBITCOIND_CONFIGFILE=${AMLBITCOIND_CONFIGFILE:-/etc/AmlBitcoin/AmlBitcoin.conf}
+AMLBITCOIND_PIDDIR=${AMLBITCOIND_PIDDIR:-/var/run/AmlBitcoind}
+AMLBITCOIND_PIDFILE=${AMLBITCOIND_PIDFILE:-${AMLBITCOIND_PIDDIR}/AmlBitcoind.pid}
+AMLBITCOIND_DATADIR=${AMLBITCOIND_DATADIR:-${AMLBITCOIND_DEFAULT_DATADIR}}
+AMLBITCOIND_USER=${AMLBITCOIND_USER:-${AMLBITCOIN_USER:-AmlBitcoin}}
+AMLBITCOIND_GROUP=${AMLBITCOIND_GROUP:-AmlBitcoin}
+AMLBITCOIND_BIN=${AMLBITCOIND_BIN:-/usr/bin/AmlBitcoind}
+AMLBITCOIND_NICE=${AMLBITCOIND_NICE:-${NICELEVEL:-0}}
+AMLBITCOIND_OPTS="${AMLBITCOIND_OPTS:-${AMLBITCOIN_OPTS}}"
+
+name="AmlBitcoin Core Daemon"
+description="AmlBitcoin cryptocurrency P2P network daemon"
+
+command="/usr/bin/AmlBitcoind"
+command_args="-pid=\"${AMLBITCOIND_PIDFILE}\" \
+		-conf=\"${AMLBITCOIND_CONFIGFILE}\" \
+		-datadir=\"${AMLBITCOIND_DATADIR}\" \
+		-daemon \
+		${AMLBITCOIND_OPTS}"
+
+required_files="${AMLBITCOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${AMLBITCOIND_USER} \
+			-N ${AMLBITCOIND_NICE} -w 2000"
+pidfile="${AMLBITCOIND_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${AMLBITCOIND_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${AMLBITCOIND_USER}:${AMLBITCOIND_GROUP}" \
+	"${AMLBITCOIND_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${AMLBITCOIND_USER}:${AMLBITCOIND_GROUP}" \
+	"${AMLBITCOIND_PIDDIR}"
+
+	checkpath -f \
+	-o ${AMLBITCOIND_USER}:${AMLBITCOIND_GROUP} \
+	-m 0660 \
+	${AMLBITCOIND_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${AMLBITCOIND_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run AmlBitcoind."
+		eerror "The setting must appear in ${AMLBITCOIND_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following "
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"AmlBitcoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

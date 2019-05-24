@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2017 The Raven Core developers
+// Copyright (c) 2017 The AmlBitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_HASH_H
-#define RAVEN_HASH_H
+#ifndef AMLBITCOIN_HASH_H
+#define AMLBITCOIN_HASH_H
 #include <iostream>
 #include <chrono>
 #include "crypto/ripemd160.h"
@@ -83,7 +83,7 @@ GLOBAL sph_whirlpool_context    z_whirlpool;
 #define ZFUGUE (memcpy(&ctx_fugue, &z_fugue, sizeof(z_fugue)))
 #define ZSHABAL (memcpy(&ctx_shabal, &z_shabal, sizeof(z_shabal)))
 #define ZWHIRLPOOL (memcpy(&ctx_whirlpool, &z_whirlpool, sizeof(z_whirlpool)))
-/** A hasher class for Raven's 256-bit hash (double SHA-256). */
+/** A hasher class for AmlBitcoin's 256-bit hash (double SHA-256). */
 class CHash256 {
 private:
     CSHA256 sha;
@@ -107,7 +107,7 @@ public:
     }
 };
 
-/** A hasher class for Raven's 160-bit hash (SHA-256 + RIPEMD-160). */
+/** A hasher class for AmlBitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
 class CHash160 {
 private:
     CSHA256 sha;
@@ -461,4 +461,4 @@ inline uint256 HashX15(const T1 pbegin, const T1 pend)
 }
 
 
-#endif // RAVEN_HASH_H
+#endif // AMLBITCOIN_HASH_H

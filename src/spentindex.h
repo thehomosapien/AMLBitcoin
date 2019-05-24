@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVEN_SPENTINDEX_H
-#define RAVEN_SPENTINDEX_H
+#ifndef AMLBITCOIN_SPENTINDEX_H
+#define AMLBITCOIN_SPENTINDEX_H
 
 #include "uint256.h"
 #include "amount.h"
@@ -41,7 +41,7 @@ struct CSpentIndexValue {
     uint256 txid;
     unsigned int inputIndex;
     int blockHeight;
-    CAmount satoshis;
+    CAmount AmlBits;
     int addressType;
     uint160 addressHash;
 
@@ -52,7 +52,7 @@ struct CSpentIndexValue {
         READWRITE(txid);
         READWRITE(inputIndex);
         READWRITE(blockHeight);
-        READWRITE(satoshis);
+        READWRITE(AmlBits);
         READWRITE(addressType);
         READWRITE(addressHash);
     }
@@ -61,7 +61,7 @@ struct CSpentIndexValue {
         txid = t;
         inputIndex = i;
         blockHeight = h;
-        satoshis = s;
+        AmlBits = s;
         addressType = type;
         addressHash = a;
     }
@@ -74,7 +74,7 @@ struct CSpentIndexValue {
         txid.SetNull();
         inputIndex = 0;
         blockHeight = 0;
-        satoshis = 0;
+        AmlBits = 0;
         addressType = 0;
         addressHash.SetNull();
     }
@@ -95,4 +95,4 @@ struct CSpentIndexKeyCompare
     }
 };
 
-#endif // RAVEN_SPENTINDEX_H
+#endif // AMLBITCOIN_SPENTINDEX_H

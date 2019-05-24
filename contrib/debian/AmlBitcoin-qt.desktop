@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=AmlBitcoin Core
+Comment=Connect to the AmlBitcoin P2P Network
+Comment[de]=Verbinde mit dem AmlBitcoin peer-to-peer Netzwerk
+Comment[fr]=AmlBitcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=AmlBitcoin, eşten eşe kriptografik sanal para birimi
+Exec=AmlBitcoin-qt %u
+Terminal=false
+Type=Application
+Icon=AmlBitcoin128
+MimeType=x-scheme-handler/AmlBitcoin;
+Categories=Office;Finance;

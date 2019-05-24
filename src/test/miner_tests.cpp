@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2017 The Raven Core developers
+// Copyright (c) 2017 The AmlBitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 
-#include "test/test_raven.h"
+#include "test/test_AmlBitcoin.h"
 
 #include <memory>
 
@@ -191,11 +191,11 @@ BOOST_FIXTURE_TEST_SUITE(miner_tests, TestingSetup)
         tx.vin[0].prevout.n = 0;
         tx.vout.resize(1);
         tx.vout[0].nValue = 5000000000LL - 1000;
-        // This tx has a low fee: 1000 satoshis
+        // This tx has a low fee: 1000 AmlBits
         uint256 hashParentTx = tx.GetHash(); // save this txid for later use
         mempool.addUnchecked(hashParentTx, entry.Fee(1000).Time(GetTime()).SpendsCoinbase(true).FromTx(tx));
 
-        // This tx has a medium fee: 10000 satoshis
+        // This tx has a medium fee: 10000 AmlBits
         tx.vin[0].prevout.hash = txFirst[1]->GetHash();
         tx.vout[0].nValue = 5000000000LL - 10000;
         uint256 hashMediumFeeTx = tx.GetHash();
@@ -203,7 +203,7 @@ BOOST_FIXTURE_TEST_SUITE(miner_tests, TestingSetup)
 
         // This tx has a high fee, but depends on the first transaction
         tx.vin[0].prevout.hash = hashParentTx;
-        tx.vout[0].nValue = 5000000000LL - 1000 - 50000; // 50k satoshi fee
+        tx.vout[0].nValue = 5000000000LL - 1000 - 50000; // 50k AmlBit fee
         uint256 hashHighFeeTx = tx.GetHash();
         mempool.addUnchecked(hashHighFeeTx, entry.Fee(50000).Time(GetTime()).SpendsCoinbase(false).FromTx(tx));
 
@@ -252,7 +252,7 @@ BOOST_FIXTURE_TEST_SUITE(miner_tests, TestingSetup)
         tx.vin[0].prevout.hash = txFirst[2]->GetHash();
         tx.vout.resize(2);
         tx.vout[0].nValue = 5000000000LL - 100000000;
-        tx.vout[1].nValue = 100000000; // 1RVN output
+        tx.vout[1].nValue = 100000000; // 1AML output
         uint256 hashFreeTx2 = tx.GetHash();
         mempool.addUnchecked(hashFreeTx2, entry.Fee(0).SpendsCoinbase(true).FromTx(tx));
 
@@ -275,7 +275,7 @@ BOOST_FIXTURE_TEST_SUITE(miner_tests, TestingSetup)
         // This tx will be mineable, and should cause hashLowFeeTx2 to be selected
         // as well.
         tx.vin[0].prevout.n = 1;
-        tx.vout[0].nValue = 100000000 - 10000; // 10k satoshi fee
+        tx.vout[0].nValue = 100000000 - 10000; // 10k AmlBit fee
         mempool.addUnchecked(tx.GetHash(), entry.Fee(10000).FromTx(tx));
         pblocktemplate = AssemblerForTest(chainparams).CreateNewBlock(scriptPubKey);
         BOOST_CHECK(pblocktemplate->block.vtx[8]->GetHash() == hashLowFeeTx2);

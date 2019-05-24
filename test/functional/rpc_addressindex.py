@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2015 The Bitcoin Core developers
-# Copyright (c) 2017-2018 The Raven Core developers
+# Copyright (c) 2017-2018 The AmlBitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,13 +9,13 @@
 #
 
 import time
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import AmlBitcoinTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
 import binascii
 
-class AddressIndexTest(RavenTestFramework):
+class AddressIndexTest(AmlBitcoinTestFramework):
 
     def set_test_params(self):
         self.setup_clean_chain = True
@@ -177,7 +177,7 @@ class AddressIndexTest(RavenTestFramework):
         deltas = self.nodes[1].getaddressdeltas({"addresses": [address2], "start": 1, "end": 200})
         balance3 = 0
         for delta in deltas:
-            balance3 += delta["satoshis"]
+            balance3 += delta["AmlBits"]
         assert_equal(balance3, change_amount)
         assert_equal(deltas[0]["address"], address2)
         assert_equal(deltas[0]["blockindex"], 1)
@@ -194,7 +194,7 @@ class AddressIndexTest(RavenTestFramework):
         print("Testing utxos...")
         utxos = self.nodes[1].getaddressutxos({"addresses": [address2]})
         assert_equal(len(utxos), 1)
-        assert_equal(utxos[0]["satoshis"], change_amount)
+        assert_equal(utxos[0]["AmlBits"], change_amount)
 
         # Check that indexes will be updated with a reorg
         print("Testing reorg...")
@@ -211,7 +211,7 @@ class AddressIndexTest(RavenTestFramework):
 
         utxos2 = self.nodes[1].getaddressutxos({"addresses": [address2]})
         assert_equal(len(utxos2), 1)
-        assert_equal(utxos2[0]["satoshis"], amount)
+        assert_equal(utxos2[0]["AmlBits"], amount)
 
         # Check sorting of utxos
         self.nodes[2].generate(150)
@@ -313,7 +313,7 @@ class AddressIndexTest(RavenTestFramework):
         tx.vin = [
             CTxIn(COutPoint(int(utxos[0]["txid"], 16), utxos[0]["outputIndex"]))
         ]
-        amount = int(utxos[0]["satoshis"] - 1000)
+        amount = int(utxos[0]["AmlBits"] - 1000)
         tx.vout = [CTxOut(amount, address1script)]
         tx.rehash()
         self.nodes[0].importprivkey(privkey1)

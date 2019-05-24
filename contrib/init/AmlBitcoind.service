@@ -1,0 +1,22 @@
+[Unit]
+Description=AmlBitcoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=AmlBitcoin
+Group=AmlBitcoin
+
+Type=forking
+PIDFile=/var/lib/AmlBitcoind/AmlBitcoind.pid
+ExecStart=/usr/bin/AmlBitcoind -daemon -pid=/var/lib/AmlBitcoind/AmlBitcoind.pid \
+-conf=/etc/AmlBitcoin/AmlBitcoin.conf -datadir=/var/lib/AmlBitcoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

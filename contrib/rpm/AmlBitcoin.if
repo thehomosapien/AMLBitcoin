@@ -1,0 +1,157 @@
+
+## <summary>policy for AmlBitcoin</summary>
+
+
+########################################
+## <summary>
+##	Transition to AmlBitcoin.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`AmlBitcoin_domtrans',`
+	gen_require(`
+		type AmlBitcoin_t, AmlBitcoin_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domtrans_pattern($1, AmlBitcoin_exec_t, AmlBitcoin_t)
+')
+
+
+########################################
+## <summary>
+##	Execute AmlBitcoin server in the AmlBitcoin domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`AmlBitcoin_initrc_domtrans',`
+	gen_require(`
+		type AmlBitcoin_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, AmlBitcoin_initrc_exec_t)
+')
+
+
+########################################
+## <summary>
+##	Search AmlBitcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`AmlBitcoin_search_lib',`
+	gen_require(`
+		type AmlBitcoin_var_lib_t;
+	')
+
+	allow $1 AmlBitcoin_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Read AmlBitcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`AmlBitcoin_read_lib_files',`
+	gen_require(`
+		type AmlBitcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, AmlBitcoin_var_lib_t, AmlBitcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage AmlBitcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`AmlBitcoin_manage_lib_files',`
+	gen_require(`
+		type AmlBitcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_files_pattern($1, AmlBitcoin_var_lib_t, AmlBitcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage AmlBitcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`AmlBitcoin_manage_lib_dirs',`
+	gen_require(`
+		type AmlBitcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_dirs_pattern($1, AmlBitcoin_var_lib_t, AmlBitcoin_var_lib_t)
+')
+
+
+########################################
+## <summary>
+##	All of the rules required to administrate
+##	a AmlBitcoin environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`AmlBitcoin_admin',`
+	gen_require(`
+		type AmlBitcoin_t;
+		type AmlBitcoin_initrc_exec_t;
+		type AmlBitcoin_var_lib_t;
+	')
+
+	allow $1 AmlBitcoin_t:process { ptrace signal_perms };
+	ps_process_pattern($1, AmlBitcoin_t)
+
+	AmlBitcoin_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 AmlBitcoin_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	files_search_var_lib($1)
+	admin_pattern($1, AmlBitcoin_var_lib_t)
+
+')
+

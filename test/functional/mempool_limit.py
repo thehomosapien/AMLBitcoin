@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2017-2018 The Raven Core developers
+# Copyright (c) 2017-2018 The AmlBitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool limiting together/eviction with the wallet."""
 
-from test_framework.test_framework import RavenTestFramework
+from test_framework.test_framework import AmlBitcoinTestFramework
 from test_framework.util import *
 
-class MempoolLimitTest(RavenTestFramework):
+class MempoolLimitTest(AmlBitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -32,12 +32,12 @@ class MempoolLimitTest(RavenTestFramework):
 
         #1
         txF = self.nodes[0].fundrawtransaction(tx)
-        base_fee = satoshi_round(0.00075*100)  # DEFAULT_FALLBACK_FEE (settxfee(0) is default and falls through to this)
+        base_fee = AmlBit_round(0.00075*100)  # DEFAULT_FALLBACK_FEE (settxfee(0) is default and falls through to this)
 
         #2
         # self.nodes[0].settxfee(relayfee)  # specifically fund this tx with low fee (this is too low and will be bumped to MINFEE)
         # txF = self.nodes[0].fundrawtransaction(tx)
-        # base_fee = satoshi_round(0.0005*100)  # DEFAULT_TRANSACTION_MINFEE
+        # base_fee = AmlBit_round(0.0005*100)  # DEFAULT_TRANSACTION_MINFEE
         # self.nodes[0].settxfee(0) # return to automatic fee selection
 
         #3

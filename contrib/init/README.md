@@ -1,11 +1,11 @@
 Sample configuration files for:
 ```
-SystemD: ravend.service
-Upstart: ravend.conf
-OpenRC:  ravend.openrc
-         ravend.openrcconf
-CentOS:  ravend.init
-OS X:    org.raven.ravend.plist
+SystemD: AmlBitcoind.service
+Upstart: AmlBitcoind.conf
+OpenRC:  AmlBitcoind.openrc
+         AmlBitcoind.openrcconf
+CentOS:  AmlBitcoind.init
+OS X:    org.AmlBitcoin.AmlBitcoind.plist
 ```
 have been made available to assist packagers in creating node packages here.
 

@@ -1,6 +1,2 @@
-# List of fixed seed nodes for testnet
-
-# Onion nodes
-thfsmmn2jraven.onion
-
-
+54.185.161.50
+207.180.222.170
