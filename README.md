@@ -1,7 +1,8 @@
 AmlBitcoin Core integration/staging tree
 =====================================
 
-https://AmlBitcoin.org
+https://amlbitcoin.com
+![](https://amlbitcoin.com/wp-content/uploads/2018/08/amlbitcoin-ico-logo-e1535117567667.png)
 
 What is AmlBitcoin?
 ----------------
